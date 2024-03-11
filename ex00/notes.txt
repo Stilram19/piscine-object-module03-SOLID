@@ -1,0 +1,25 @@
+"OO is about managing dependencies in your code" Uncle Bob
+
+(*) [S]ingle responsibility principle: A class must have one, and only one, reason to change.
+    Don't mix concerns into one class, different concerns must be in different classes.
+
+=> A youtube comment: "I understand single responsibility as a way to reduce context overload. 
+Having to keep a lot of context in head is the devil.
+My little brain starts to leak when I write more than 20 lines of code,
+so I write simple classes and functions that know little and do little,
+then compose them to do a little more. "
+
+=> Another definition: "Gather together the things that change for the same reasons.
+Separate those things that change for different reasons."
+
+(*) Uncle Robert defines Responsibility ,in this context, as a reason to change.
+
+(*) But in a real world scenario, a class might need to change for multiple reasons and still doesn't violate
+the single responsibility principle, how? these reasons to change must be all related to the only responsibility (or the concern) of the class.
+
+(*) Example: Engine class, reasons to change may be: improving fuel efficiency, increasing power output, integrating alternative power sources...
+    All of these reasons to change the class implementation, but they are all related to the same responsibility (or concern) of the engine class
+    which is "generating the power for the vehicle".
+
+(*) In this exercise, the Car class can be viewed as a facade (an interface hiding details complexity)
+    whose responsibility is to manage the interaction between the components of the car, providing a simple interface for the driver.
