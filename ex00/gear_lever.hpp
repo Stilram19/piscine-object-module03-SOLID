@@ -15,7 +15,7 @@ class GearLever {
     // Constructor & Destructor
     private:
         GearLever(const GearLever &other) {}
-        GearLever &operator=(const GearLever &other) {}
+        GearLever &operator=(const GearLever &other) { return (*this); }
 
     public:
         GearLever() : current_gear(NEUTRAL_LEVEL) {}

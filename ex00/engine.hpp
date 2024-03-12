@@ -3,13 +3,12 @@
 
 # include <iostream>
 
+// using the term engine, which is suggested in the subject, means that we're considering fuel vehicles.
+// Motor is used more for electrical vehicles, as it requires a batterie as its energy source.
+
 enum e_engine_state {
     ENGINE_ON, ENGINE_OFF
 };
-
-// this class will implement the Engine concern. if it happens to have more than one
-// concern at some point, as we go deep in the implementation, we should consider
-// distributing the new concerns to new classes.
 
 class Engine {
     // Attributes

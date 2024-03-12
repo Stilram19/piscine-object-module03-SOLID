@@ -23,3 +23,5 @@ the single responsibility principle, how? these reasons to change must be all re
 
 (*) In this exercise, the Car class can be viewed as a facade (an interface hiding details complexity)
     whose responsibility is to manage the interaction between the components of the car, providing a simple interface for the driver.
+
+The brake pedal and the entity responsible for calculating the speed of a car are sperate and has different concerns.
