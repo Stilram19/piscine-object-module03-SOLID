@@ -26,6 +26,10 @@ class EmergencyBrakes {
                 std::cout << "Brakes applied" << std::endl;
             }
         }
+
+        bool is_applied() const {
+            return (this->status == APPLIED);
+        }
 };
 
 #endif

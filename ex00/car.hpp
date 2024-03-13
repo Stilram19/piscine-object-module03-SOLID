@@ -58,7 +58,11 @@ class Car {
         }
 
         void accelerate(float speed) {
-            this->engine->burn_and_generate_work(speed);
+            if (this->engine) {
+                this->engine->burn_and_generate_work(speed);
+                return ;
+            }
+            std::cout << "The car doesn't have an engine!" << std::endl;
         }
 
         void shift_gears_up() {
@@ -87,11 +91,19 @@ class Car {
         }
 
         void turn_wheel(float angle) {
-            this->front_wheel_holder->turn(angle);
+            if (this->steer_wheel) {
+                this->steer_wheel->turn(angle);
+                return ;
+            }
+            std::cout << "The car doesn't have a steering wheel!" << std::endl;
         }
 
         void straighten_wheels() {
-            this->front_wheel_holder->straighten();
+            if (this->steer_wheel) {
+                this->steer_wheel->straighten();
+                return ;
+            }
+            std::cout << "The car doesn't have a steering wheel!" << std::endl;
         }
 
         void apply_force_on_brakes(float force) {
