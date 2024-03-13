@@ -15,31 +15,25 @@ class Car {
     // in my very minimalist car's implementation,
     // I see it like the necessary condition for recognizing a car.
     // all the other components can be replaced. (aggregation)
-        Frame           chassis;
-        Engine          *engine;
-        GearLever       *gear_lever;
-        SteerWheel      *steer_wheel;
-        BrakePedal      *brakes;
-        EmergencyBrakes *emergency_brakes;
-        RearWheels      *rear_wheels;
-        FrontWheels     *front_wheels;
+        Frame               chassis;
+        FrontWheels         *front_wheel_holder;
+        RearWheels          *rear_wheel_holder;
+        BrakePedal          *brake_pedal;
+        Transmission        *current_transmission;
+        Crankshaft          *current_crankshaft;
+        Engine              *engine;
+        GearLever           *gear_lever;
+        SteerWheel          *steer_wheel;
+        EmergencyBrakes     *emergency_brakes;
 
     private:
         Car(const Car &other);
         Car &operator=(const Car &other) { return (*this); }
 
     public:
-        Car(int chassis_material, Engine *engine = NULL, GearLever *gear_lever = NULL, \
-            SteerWheel *steer_wheel = NULL, BrakePedal *brakes = NULL, \
-            EmergencyBrakes *emergency_brakes = NULL) : chassis(chassis_material)
+        Car(int chassis_material) : chassis(chassis_material)
         {
-                this->engine = engine;
-                this->gear_lever = gear_lever;
-                this->steer_wheel = steer_wheel;
-                this->brakes = brakes;
-                this->emergency_brakes = emergency_brakes;
-                std::cout << "Car constructed successfully!" << std::endl;
-                
+            std::cout << "Car constructed successfully!" << std::endl;
         }
 
         ~Car() {
@@ -64,7 +58,7 @@ class Car {
         }
 
         void accelerate(float speed) {
-            
+            this->engine->burn_and_generate_work(speed);
         }
 
         void shift_gears_up() {
@@ -93,16 +87,16 @@ class Car {
         }
 
         void turn_wheel(float angle) {
-            
+            this->front_wheel_holder->turn(angle);
         }
 
         void straighten_wheels() {
-
+            this->front_wheel_holder->straighten();
         }
 
         void apply_force_on_brakes(float force) {
-            if (this->brakes) {
-                this->brakes->apply_force(force);
+            if (this->brake_pedal) {
+                this->brake_pedal->apply_force(force);
                 return ;
             }
             std::cout << "The car doesn't have emergency brakes!" << std::endl;
@@ -114,6 +108,89 @@ class Car {
                 return ;
             }
             std::cout << "The car doesn't have emergency brakes!" << std::endl;
+        }
+
+    public:
+
+        // interface to add, remove or replace car components
+        // and still ensures integity and good inter_connection between the components
+        // shalow copies are just enough
+
+        void set_front_wheel_holder(FrontWheels *front_wheel_holder) {
+            this->front_wheel_holder = front_wheel_holder;
+        }
+
+        void set_rear_wheel_holder(RearWheels *rear_wheel_holder) {
+            this->rear_wheel_holder = rear_wheel_holder;
+        }
+
+        void set_front_left_wheel(FrontWheel *left) {
+            if (this->front_wheel_holder) {
+                this->front_wheel_holder->set_left_wheel(left);
+                this->current_transmission->set_front_wheels(this->front_wheel_holder);
+            }
+        }
+
+        void set_front_right_wheel(FrontWheel *right) {
+            if (this->front_wheel_holder) {
+                this->front_wheel_holder->set_left_wheel(right);
+                this->current_transmission->set_front_wheels(this->front_wheel_holder);
+            }
+        }
+
+        void set_rear_left_wheel(RearWheel *left) {
+            if (this->rear_wheel_holder) {
+                this->rear_wheel_holder->add_left_wheel(left);
+                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
+            }
+        }
+
+        void add_rear_right_wheel(RearWheel *right) {
+            if (this->rear_wheel_holder) {
+                this->rear_wheel_holder->add_left_wheel(right);
+                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
+
+            }
+        }
+
+        void set_transmission(Transmission *transmission) {
+            this->current_transmission = transmission;
+            if (this->current_transmission) {
+                this->current_transmission->set_front_wheels(this->front_wheel_holder);
+                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
+            }
+            this->current_crankshaft->set_transmission(this->current_transmission);
+        }
+
+        void set_crankshaft(Crankshaft *crankshaft) {
+            this->current_crankshaft = crankshaft;
+            if (this->current_crankshaft) {
+                this->current_crankshaft->set_transmission(this->current_transmission);
+            }
+        }
+
+        void set_engine(Engine *engine) {
+            this->engine = engine;
+            
+            if (this->engine) {
+                this->engine->set_crankshaft(this->current_crankshaft);
+            }
+        }
+
+        void set_gear_lever(GearLever *gear_lever) {
+            this->gear_lever = gear_lever;
+        }
+
+        void set_steer_wheel(SteerWheel *steer_wheel) {
+            this->steer_wheel = steer_wheel;
+        }
+
+        void set_brake_pedal(BrakePedal *brake_pedal) {
+            this->brake_pedal = brake_pedal;
+        }
+
+        void set_emergency_brakes(EmergencyBrakes *emergency_brakes) {
+            this->emergency_brakes = emergency_brakes;
         }
 };
 

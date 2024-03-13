@@ -21,17 +21,18 @@ class FrontWheel : public Wheel {
 
     public:
         void turn(float angle) {
-            this->angle += angle;
 
             // these two checks are here to catch overflows and underflows
             if (angle > MAX_ANGLE) {
-                this->angle = MAX_ANGLE;
+                angle = MAX_ANGLE;
             }
             if (angle < MIN_ANGLE) {
-                this->angle = MIN_ANGLE;
+                angle = MIN_ANGLE;
             }
 
-            // these guards are safe from underflows and overflows
+            this->angle += angle;
+
+            // ensure that the angle is within the range.
             if (this->angle > MAX_ANGLE) {
                 this->angle = MAX_ANGLE;
             }

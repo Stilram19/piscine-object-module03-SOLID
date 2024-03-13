@@ -21,19 +21,20 @@ class Wheel {
 
     public:
         // the added speed can be positive as well as negative.
-        void change_speed(int added_speed) {
-            this->rotation_speed += added_speed;
+        void change_speed(float added_speed) {
 
             // these two checks are here to catch overflows and underflows
             if (added_speed > MAX_SPEED) {
-                this->rotation_speed = MAX_SPEED;
+                added_speed = MAX_SPEED;
             }
 
             if (added_speed < (-1) * MAX_SPEED) {
-                this->rotation_speed = NO_ROTATION_SPEED;
+                added_speed = NO_ROTATION_SPEED;
             }
 
-            // these guards are safe from underflows and overflows
+            this->rotation_speed += added_speed;
+
+            // ensure that the speed is within the range.
             if (this->rotation_speed > MAX_SPEED) {
                 this->rotation_speed = MAX_SPEED;
             }
@@ -47,6 +48,10 @@ class Wheel {
 
         float get_rotation_speed() {
             return (this->rotation_speed);
+        }
+
+        void reset_speed() {
+            this->rotation_speed = NO_ROTATION_SPEED;
         }
 };
 

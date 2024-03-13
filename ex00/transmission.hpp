@@ -1,0 +1,43 @@
+#ifndef TRANSMISSION_HPP
+# define TRANSMISSION_HPP
+
+# include "front_wheels.hpp"
+# include "rear_wheels.hpp"
+
+class Transmission {
+    private:
+        FrontWheels *front_wheels;
+        RearWheels *rear_wheels;
+
+    private:
+        Transmission(const Transmission &other) {}
+        Transmission &operator=(const Transmission &other) { return (*this); }
+
+    public:
+        void set_front_wheels(FrontWheels *front_wheels) {
+            this->front_wheels = front_wheels;
+        }
+
+        void set_rear_wheels(RearWheels *rear_wheels) {
+            this->rear_wheels = rear_wheels;
+        }
+
+    public:
+        // activates the mechanical engergy produced by the engine (through the crankshaft)
+        void activate(float force) {
+            if (front_wheels == NULL || rear_wheels == NULL) {
+                std::cout << "Energy dissipated: There must be 4 wheels!" << std::endl;
+                return ;
+            }
+
+            int count = force > 0 ? force : (-1) * force;
+            int speed = force > 0 ? 1 : -1;
+
+            while (count--) {
+                this->front_wheels->change_speed(speed);
+                this->front_wheels->change_speed(speed);
+            }
+        }
+};
+
+#endif

@@ -4,12 +4,12 @@
 # include "Wheel.hpp"
 
 class RearWheel : public Wheel {
+    private:
+        RearWheel(const Wheel &other) {}
+        RearWheel &operator=(const Wheel &other) {}
     public:
         RearWheel() {}
         ~RearWheel() {}
-    
-    public:
-        
 };
 
 #endif
