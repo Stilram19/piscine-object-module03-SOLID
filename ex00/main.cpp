@@ -24,11 +24,13 @@ void test1() {
 }
 
 void test2() {
-    float force = 10;
+    // float force = 10;
     FrontWheel front_left;
     FrontWheel front_right;
     RearWheel rear_left;
     RearWheel rear_right;
+    FrontWheels front_wheels;
+    RearWheels rear_wheels;
     BrakePedal pedal;
     Transmission transmission;
     Crankshaft  crankshaft;
@@ -39,8 +41,17 @@ void test2() {
     car.set_crankshaft(&crankshaft);
     car.set_transmission(&transmission);
     car.set_engine(&engine);
-    car.set_front_left_wheel(&front_left);
 
+    car.set_front_wheel_holder(&front_wheels);
+    car.set_rear_wheel_holder(&rear_wheels);
+
+    car.set_front_left_wheel(&front_left);
+    // car.set_front_left_wheel(&front_right);
+    // car.set_rear_left_wheel(&rear_left);
+    // car.set_rear_left_wheel(&rear_right);
+
+    // car.accelerate(force);
+    // car.start();
 }
 
 int main() {

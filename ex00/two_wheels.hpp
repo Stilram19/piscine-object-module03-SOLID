@@ -20,6 +20,7 @@ class TwoWheels {
         TwoWheels &operator=(const TwoWheels &other);
 
     public:
+        TwoWheels() {}
         TwoWheels(T *left_wheel, T *right_wheel) : left_wheel(left_wheel), right_wheel(right_wheel) {}
         virtual ~TwoWheels() {}
 

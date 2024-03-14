@@ -47,8 +47,8 @@ class Engine {
 
     public:
         void start() {
-            if (this->fuel_amount == OUT_OF_FUEL) {
-                std::cout << "We're out of fuel!" << std::endl;
+            if (this->fuel_amount < START_CONSUMPTION_UNIT) {
+                std::cout << "Can't Start! We're out of Fuel!" << std::endl;
                 return ;
             }
 
@@ -68,8 +68,20 @@ class Engine {
         }
 
         void burn_and_generate_work(float speed) {
+            if (this->status == ENGINE_OFF) {
+                std::cout << "Engine is off! turn it on to accelerate!" << std::endl;
+                return ;
+            }
+            if (this->crankshaft) {
+                std::cout << "No crankshaft in engine!" << std::endl;
+                return ;
+            }
+            if (this->fuel_amount < CONSUMPTION_UNIT) {
+                std::cout << "Engine can't burn and generate! We're out of fuel!" << std::endl;
+                return ;
+            }
+            this->consume_fuel(CONSUMPTION_UNIT);
             std::cout << "Engine burning fuel..." << std::endl;
-
             this->crankshaft->receive_force(speed);
         }
 

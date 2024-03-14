@@ -59,7 +59,9 @@ class Car {
         void add_fuel(int amount) {
             if (this->engine) {
                 this->engine->add_fuel(amount);
+                return ;
             }
+            std::cout << "The car doesn't have an engine!" << std::endl;
         }
 
         void accelerate(float speed) {
@@ -81,6 +83,14 @@ class Car {
         void shift_gears_down() {
             if (this->gear_lever) {
                 this->gear_lever->switch_down();
+                return ;
+            }
+            std::cout << "The car doesn't have a gear_lever!" << std::endl;
+        }
+
+        void set_gear_neutral() {
+            if (this->gear_lever) {
+                this->gear_lever->set_neutral();
                 return ;
             }
             std::cout << "The car doesn't have a gear_lever!" << std::endl;
@@ -138,10 +148,10 @@ class Car {
     private:
         // this function resets the speed of the four wheels,
         // and updates the wheels for wheel dependent components
-        void update_wheels_dependent_components(Wheel *new_wheel) {
-
+        void update_wheels_dependent_components() {
             if (this->front_wheels) {
                 this->front_wheels->reset_wheels();
+
                 if (this->current_transmission) {
                     this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
                 }
@@ -179,7 +189,8 @@ class Car {
             }
         }
 
-        void check_if_already_front_wheel(RearWheel *new_wheel) {
+        // if an already existing rear wheel is to be replaced again
+        void check_if_already_rear_wheel(RearWheel *new_wheel) {
             if (this->rear_wheels) {
                 if (new_wheel == this->rear_wheels->get_left_wheel()) {
                     this->rear_wheels->set_left_wheel(NULL);
@@ -190,7 +201,8 @@ class Car {
             }
         }
 
-        void check_if_already_rear_wheel(FrontWheel *new_wheel) {
+        // if an already existing front wheel is to be replaced again
+        void check_if_already_front_wheel(FrontWheel *new_wheel) {
             if (this->front_wheels) {
                 if (new_wheel == this->front_wheels->get_left_wheel()) {
                     this->front_wheels->set_left_wheel(NULL);
@@ -217,10 +229,10 @@ class Car {
 
         void set_front_left_wheel(FrontWheel *left) {
             this->check_if_already_front_wheel(left);
-
             if (this->front_wheels) {
                 this->front_wheels->set_left_wheel(left);
-                this->update_wheels_dependent_components(left);
+                (void)left;
+                // this->update_wheels_dependent_components();
             }
         }
 
@@ -229,7 +241,7 @@ class Car {
 
             if (this->front_wheels) {
                 this->front_wheels->set_left_wheel(right);
-                this->update_wheels_dependent_components(right);
+                this->update_wheels_dependent_components();
             }
         }
 
@@ -238,7 +250,7 @@ class Car {
 
             if (this->rear_wheels) {
                 this->rear_wheels->set_left_wheel(left);
-                this->update_wheels_dependent_components(left);
+                this->update_wheels_dependent_components();
                 this->attach_emergency_brakes();
             }
         }
@@ -248,7 +260,7 @@ class Car {
 
             if (this->rear_wheels) {
                 this->rear_wheels->set_left_wheel(right);
-                this->update_wheels_dependent_components(right);
+                this->update_wheels_dependent_components();
                 this->attach_emergency_brakes();
             }
         }

@@ -14,6 +14,7 @@ class RearWheels : public TwoWheels<RearWheel>
         RearWheels &operator=(const RearWheels &other);
 
     public:
+        RearWheels() {}
         RearWheels(RearWheel *left_wheel, RearWheel *right_wheel) :  TwoWheels<RearWheel>(left_wheel, right_wheel) {}
         ~RearWheels() {}
 
