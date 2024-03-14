@@ -48,11 +48,31 @@ class FrontWheels {
 
         void change_speed(float speed) {
             if (left_wheel == NULL || right_wheel == NULL) {
-                std::cout << "To change front wheels speed, both wheels must exist!" << std::endl;
+                throw std::runtime_error("To change front wheels speed, both wheels must exist!");
             }
 
             this->left_wheel->change_speed(speed);
             this->right_wheel->change_speed(speed);
+        }
+
+        void reset_wheels() {
+            if (this->left_wheel) {
+                this->left_wheel->reset_speed();
+            }
+            if (this->right_wheel) {
+                this->right_wheel->reset_speed();
+            }
+        }
+
+    public:
+        int get_max_speed() const {
+            if (this->left_wheel) {
+                return (this->left_wheel->get_max_speed());
+            }
+            if (this->right_wheel) {
+                return (this->right_wheel->get_max_speed());
+            }
+            return (0);
         }
 };
 

@@ -14,11 +14,8 @@ class Transmission {
         Transmission &operator=(const Transmission &other) { return (*this); }
 
     public:
-        void set_front_wheels(FrontWheels *front_wheels) {
+        void set_wheels(FrontWheels *front_wheels, RearWheels *rear_wheels) {
             this->front_wheels = front_wheels;
-        }
-
-        void set_rear_wheels(RearWheels *rear_wheels) {
             this->rear_wheels = rear_wheels;
         }
 
@@ -33,9 +30,14 @@ class Transmission {
             int count = force > 0 ? force : (-1) * force;
             int speed = force > 0 ? 1 : -1;
 
-            while (count--) {
-                this->front_wheels->change_speed(speed);
-                this->front_wheels->change_speed(speed);
+            try {
+                while (count--) {
+                    this->front_wheels->change_speed(speed);
+                    this->rear_wheels->change_speed(speed);
+                }
+            }
+            catch (const std::runtime_error &e) {
+                std::cout << "ERROR: " << e.what() << std::endl;
             }
         }
 };

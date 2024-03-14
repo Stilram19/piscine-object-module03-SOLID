@@ -27,6 +27,11 @@ class SteerWheel {
                 this->front_wheels->straighten();
             }
         }
+
+    public:
+        void set_wheels(FrontWheels *front_wheels) {
+            this->front_wheels = front_wheels;
+        }
 };
 
 #endif

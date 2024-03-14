@@ -19,14 +19,12 @@ class BrakePedal {
         BrakePedal &operator=(const BrakePedal &other) { return (*this); }
 
     public:
-        BrakePedal(FrontWheels *front_wheels, RearWheels *rear_wheels) :\
-         front_wheels(front_wheels), rear_wheels(rear_wheels) {}
         ~BrakePedal() {}
 
     public:
         void apply_force(float force) {
             if (this->front_wheels == NULL || this->rear_wheels == NULL) {
-                std::cout << "There must be all the four wheels, in order to use the brakes!" << std::endl;
+                std::cout << "There must be all four wheels, in order to use the brakes!" << std::endl;
                 return ;
             }
 
@@ -41,10 +39,20 @@ class BrakePedal {
             }
 
             std::cout << "Using brakes..." << std::endl;
-            while (speed--) {
-                this->front_wheels->change_speed(-1);
-                this->rear_wheels->change_speed(-1);
+            try {
+                while (speed--) {
+                    this->front_wheels->change_speed(-1);
+                    this->rear_wheels->change_speed(-1);
+                }
             }
+            catch (const std::runtime_error &e) {
+                std::cout << "Error: " << e.what() << std::endl;
+            }
+        }
+
+        void set_wheels(FrontWheels *front_wheels, RearWheels *rear_wheels) {
+            this->front_wheels = front_wheels;
+            this->rear_wheels = rear_wheels;
         }
 };
 

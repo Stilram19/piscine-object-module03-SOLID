@@ -16,8 +16,8 @@ class Car {
     // I see it like the necessary condition for recognizing a car.
     // all the other components can be replaced. (aggregation)
         Frame               chassis;
-        FrontWheels         *front_wheel_holder;
-        RearWheels          *rear_wheel_holder;
+        FrontWheels         *front_wheels;
+        RearWheels          *rear_wheels;
         BrakePedal          *brake_pedal;
         Transmission        *current_transmission;
         Crankshaft          *current_crankshaft;
@@ -55,6 +55,12 @@ class Car {
                 return ;
             }
             std::cout << "The car doesn't have an engine!" << std::endl;
+        }
+
+        void add_fuel(int amount) {
+            if (this->engine) {
+                this->engine->add_fuel(amount);
+            }
         }
 
         void accelerate(float speed) {
@@ -122,54 +128,78 @@ class Car {
             std::cout << "The car doesn't have emergency brakes!" << std::endl;
         }
 
+    private:
+        // this function attaches the emergency brakes to the new wheel,
+        // resets the speed of the four wheels,
+        // and updates the wheels for components that are wheel dependent
+        void update_wheels_dependent_components(Wheel *new_wheel) {
+            // attaching the emergency_brake
+            if (new_wheel == NULL) {
+                new_wheel->attach_emergency_brake(this->emergency_brakes);
+            }
+
+            if (this->front_wheels) {
+                this->front_wheels->reset_wheels();
+                this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
+                this->steer_wheel->set_wheels(this->front_wheels);
+                this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
+                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+            }
+
+            if (this->rear_wheels) {
+                this->rear_wheels->reset_wheels();
+                this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
+                this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
+                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+            }
+        }
+
     public:
 
         // interface to add, remove or replace car components
         // and still ensures integity and good inter_connection between the components
         // shalow copies are just enough
 
-        void set_front_wheel_holder(FrontWheels *front_wheel_holder) {
-            this->front_wheel_holder = front_wheel_holder;
+        void set_front_wheel_holder(FrontWheels *front_wheels) {
+            this->front_wheels = front_wheels;
         }
 
-        void set_rear_wheel_holder(RearWheels *rear_wheel_holder) {
-            this->rear_wheel_holder = rear_wheel_holder;
+        void set_rear_wheel_holder(RearWheels *rear_wheels) {
+            this->rear_wheels = rear_wheels;
         }
 
         void set_front_left_wheel(FrontWheel *left) {
-            if (this->front_wheel_holder) {
-                this->front_wheel_holder->set_left_wheel(left);
-                this->current_transmission->set_front_wheels(this->front_wheel_holder);
+            if (this->front_wheels) {
+                this->front_wheels->set_left_wheel(left);
+                this->update_wheels_dependent_components(left);
             }
         }
 
         void set_front_right_wheel(FrontWheel *right) {
-            if (this->front_wheel_holder) {
-                this->front_wheel_holder->set_left_wheel(right);
-                this->current_transmission->set_front_wheels(this->front_wheel_holder);
+            if (this->front_wheels) {
+                this->front_wheels->set_left_wheel(right);
+                this->update_wheels_dependent_components(right);
             }
         }
 
         void set_rear_left_wheel(RearWheel *left) {
-            if (this->rear_wheel_holder) {
-                this->rear_wheel_holder->add_left_wheel(left);
-                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
+            if (this->rear_wheels) {
+                this->rear_wheels->add_left_wheel(left);
+                this->update_wheels_dependent_components(left);
             }
         }
 
-        void add_rear_right_wheel(RearWheel *right) {
-            if (this->rear_wheel_holder) {
-                this->rear_wheel_holder->add_left_wheel(right);
-                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
-
+        void set_rear_right_wheel(RearWheel *right) {
+            if (this->rear_wheels) {
+                this->rear_wheels->add_left_wheel(right);
+                this->update_wheels_dependent_components(right);
             }
         }
 
         void set_transmission(Transmission *transmission) {
             this->current_transmission = transmission;
             if (this->current_transmission) {
-                this->current_transmission->set_front_wheels(this->front_wheel_holder);
-                this->current_transmission->set_rear_wheels(this->rear_wheel_holder);
+                this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
             }
             this->current_crankshaft->set_transmission(this->current_transmission);
         }
@@ -195,14 +225,24 @@ class Car {
 
         void set_steer_wheel(SteerWheel *steer_wheel) {
             this->steer_wheel = steer_wheel;
+
+            if (this->steer_wheel) {
+                this->steer_wheel->set_wheels(this->front_wheels);
+            }
         }
 
         void set_brake_pedal(BrakePedal *brake_pedal) {
             this->brake_pedal = brake_pedal;
+            if (this->brake_pedal) {
+                this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
+            }
         }
 
         void set_emergency_brakes(EmergencyBrakes *emergency_brakes) {
             this->emergency_brakes = emergency_brakes;
+            if (this->emergency_brakes) {
+                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+            }
         }
 };
 

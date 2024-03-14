@@ -22,7 +22,7 @@ class Wheel {
         ~Wheel() {}
 
     private:
-        bool is_emergency_brakes_applied() {
+        bool is_emergency_brakes_applied() const {
             if (this->current_car_emergency_brakes) {
                 return (this->current_car_emergency_brakes->is_applied());
             }
@@ -61,7 +61,7 @@ class Wheel {
             std::cout << "Speed change called! Current Speed: " << this->rotation_speed << std::endl;
         }
 
-        float get_rotation_speed() {
+        float get_rotation_speed() const {
             return (this->rotation_speed);
         }
 
@@ -72,6 +72,10 @@ class Wheel {
 
         void attach_emergency_brake(EmergencyBrakes *emergency_brakes) {
             this->current_car_emergency_brakes = emergency_brakes;
+        }
+
+        int get_max_speed() const {
+            return (MAX_SPEED);
         }
 };
 

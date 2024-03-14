@@ -29,6 +29,15 @@ class RearWheels {
             this->left_wheel->change_speed(speed);
             this->right_wheel->change_speed(speed);
         }
+
+        void reset_wheels() {
+            if (this->left_wheel) {
+                this->left_wheel->reset_speed();
+            }
+            if (this->right_wheel) {
+                this->right_wheel->reset_speed();
+            }
+        }
 };
 
 #endif
