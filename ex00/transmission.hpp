@@ -7,11 +7,15 @@
 class Transmission {
     private:
         FrontWheels *front_wheels;
-        RearWheels *rear_wheels;
+        RearWheels  *rear_wheels;
 
     private:
-        Transmission(const Transmission &other) {}
-        Transmission &operator=(const Transmission &other) { return (*this); }
+        Transmission(const Transmission &other);
+        Transmission &operator=(const Transmission &other);
+
+    public:
+        Transmission() {}
+        ~Transmission() {}
 
     public:
         void set_wheels(FrontWheels *front_wheels, RearWheels *rear_wheels) {

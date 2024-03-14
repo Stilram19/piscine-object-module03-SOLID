@@ -4,37 +4,40 @@
 # include "front_wheels.hpp"
 # include "rear_wheels.hpp"
 
-enum e_brakes_status {
-    NOT_APPLIED, APPLIED
-};
-
 class EmergencyBrakes {
     private:
         bool         status;
-        FrontWheels *front_wheels;
         RearWheels  *rear_wheels;
 
     private:
-        EmergencyBrakes(const EmergencyBrakes &other) {}
-        EmergencyBrakes &operator=(const EmergencyBrakes &other) { return (*this); }
+        enum e_brakes_status {
+            RELEASED, APPLIED
+        };
+
+    private:
+        EmergencyBrakes(const EmergencyBrakes &other);
+        EmergencyBrakes &operator=(const EmergencyBrakes &other);
 
     public:
-        EmergencyBrakes() : status(NOT_APPLIED) {}
+        EmergencyBrakes() : status(RELEASED) {}
         ~EmergencyBrakes() {}
-        
+
     public:
         void apply() {
-            if (status == NOT_APPLIED) {
-                this->status = APPLIED;
-                std::cout << "Brakes applied" << std::endl;
+            this->status = APPLIED;
+
+            if (this->rear_wheels == NULL) {
+                std::cout << "no wheels attached to the emergency brakes!" << std::endl;
+                return ;
             }
 
+            this->rear_wheels->stop_wheels();
+
             std::cout << "Using Emergency brakes..." << std::endl;
-            int speed = this->front_wheels->get_max_speed(); // the max speed that a wheel can support
+            int speed = this->rear_wheels->get_max_speed(); // the max speed that a wheel can support
 
             try {
                 while (speed--) {
-                    this->front_wheels->change_speed(-1);
                     this->rear_wheels->change_speed(-1);
                 }
             }
@@ -43,12 +46,22 @@ class EmergencyBrakes {
             }
         }
 
+        void release() {
+            this->status = RELEASED;
+
+            if (this->rear_wheels == NULL) {
+                std::cout << "No wheels attached to the emergency brakes!" << std::endl;
+                return ;
+            }
+
+            this->rear_wheels->release_wheels();
+        }
+
         bool is_applied() const {
             return (this->status == APPLIED);
         }
 
-        void set_wheels(FrontWheels *front_wheels, RearWheels *rear_wheels) {
-            this->front_wheels = front_wheels;
+        void set_wheels(RearWheels *rear_wheels) {
             this->rear_wheels = rear_wheels;
         }
 };

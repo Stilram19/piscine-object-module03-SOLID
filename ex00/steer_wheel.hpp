@@ -8,8 +8,8 @@ class SteerWheel {
         FrontWheels *front_wheels;
 
     private:
-        SteerWheel(const SteerWheel &other) {}
-        SteerWheel &operator=(const SteerWheel &other) { return (*this); }
+        SteerWheel(const SteerWheel &other);
+        SteerWheel &operator=(const SteerWheel &other);
 
     public:
         SteerWheel(FrontWheels *front_wheels) : front_wheels(front_wheels) {}

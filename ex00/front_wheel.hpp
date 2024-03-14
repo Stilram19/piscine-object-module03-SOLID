@@ -1,19 +1,20 @@
 #ifndef FRONT_WHEEL_HPP
 # define FRONT_WHEEL_HPP
 
-# include "Wheel.hpp"
+# include "wheel.hpp"
 
 enum e_special_angles {
     STRAIGHT_ANGLE = 0, MIN_ANGLE = -30, MAX_ANGLE = 30
 };
 
-class FrontWheel : public Wheel {
+class FrontWheel : public Wheel
+{
     private:
         float angle;
 
     private:
-        FrontWheel(const FrontWheel &other) {}
-        FrontWheel &operator=(const FrontWheel &other) { return (*this); }
+        FrontWheel(const FrontWheel &other);
+        FrontWheel &operator=(const FrontWheel &other);
 
     public:
         FrontWheel() : Wheel(), angle(STRAIGHT_ANGLE) {}

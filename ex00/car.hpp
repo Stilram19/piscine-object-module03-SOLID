@@ -28,11 +28,10 @@ class Car {
 
     private:
         Car(const Car &other);
-        Car &operator=(const Car &other) { return (*this); }
+        Car &operator=(const Car &other);
 
     public:
-        Car(int chassis_material) : chassis(chassis_material)
-        {
+        Car(int chassis_material) : chassis(chassis_material) {
             std::cout << "Car constructed successfully!" << std::endl;
         }
 
@@ -117,7 +116,7 @@ class Car {
                 this->brake_pedal->apply_force(force);
                 return ;
             }
-            std::cout << "The car doesn't have emergency brakes!" << std::endl;
+            std::cout << "The car doesn't have brakes!" << std::endl;
         }
 
         void apply_emergency_brakes() {
@@ -128,29 +127,77 @@ class Car {
             std::cout << "The car doesn't have emergency brakes!" << std::endl;
         }
 
-    private:
-        // this function attaches the emergency brakes to the new wheel,
-        // resets the speed of the four wheels,
-        // and updates the wheels for components that are wheel dependent
-        void update_wheels_dependent_components(Wheel *new_wheel) {
-            // attaching the emergency_brake
-            if (new_wheel == NULL) {
-                new_wheel->attach_emergency_brake(this->emergency_brakes);
+        void release_emergency_brakes() {
+            if (this->emergency_brakes) {
+                this->emergency_brakes->release();
+                return ;
             }
+            std::cout << "The car doesn't have emergency brakes!" << std::endl;
+        }
+
+    private:
+        // this function resets the speed of the four wheels,
+        // and updates the wheels for wheel dependent components
+        void update_wheels_dependent_components(Wheel *new_wheel) {
 
             if (this->front_wheels) {
                 this->front_wheels->reset_wheels();
-                this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
-                this->steer_wheel->set_wheels(this->front_wheels);
-                this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
-                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+                if (this->current_transmission) {
+                    this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
+                }
+                if (this->steer_wheel) {
+                    this->steer_wheel->set_wheels(this->front_wheels);
+                }
+                if (this->brake_pedal) {
+                    this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
+                }
             }
 
             if (this->rear_wheels) {
                 this->rear_wheels->reset_wheels();
-                this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
-                this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
-                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+                if (this->current_transmission) {
+                    this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
+                }
+                if (this->brake_pedal) {
+                    this->brake_pedal->set_wheels(this->front_wheels, this->rear_wheels);
+                }
+                if (this->emergency_brakes) {
+                    this->emergency_brakes->set_wheels(this->rear_wheels);
+                }
+            }
+        }
+
+        // to ensure that every new rear wheel is synchronized to the status of the
+        // emergency brakes.
+        void attach_emergency_brakes() {
+            if (this->rear_wheels) {
+                this->rear_wheels->release_wheels();
+
+                if (this->emergency_brakes && this->emergency_brakes->is_applied()) {
+                    this->rear_wheels->stop_wheels();
+                }
+            }
+        }
+
+        void check_if_already_front_wheel(RearWheel *new_wheel) {
+            if (this->rear_wheels) {
+                if (new_wheel == this->rear_wheels->get_left_wheel()) {
+                    this->rear_wheels->set_left_wheel(NULL);
+                }
+                if (new_wheel == this->rear_wheels->get_right_wheel()) {
+                    this->rear_wheels->set_left_wheel(NULL);
+                }
+            }
+        }
+
+        void check_if_already_rear_wheel(FrontWheel *new_wheel) {
+            if (this->front_wheels) {
+                if (new_wheel == this->front_wheels->get_left_wheel()) {
+                    this->front_wheels->set_left_wheel(NULL);
+                }
+                if (new_wheel == this->front_wheels->get_right_wheel()) {
+                    this->front_wheels->set_left_wheel(NULL);
+                }
             }
         }
 
@@ -169,6 +216,8 @@ class Car {
         }
 
         void set_front_left_wheel(FrontWheel *left) {
+            this->check_if_already_front_wheel(left);
+
             if (this->front_wheels) {
                 this->front_wheels->set_left_wheel(left);
                 this->update_wheels_dependent_components(left);
@@ -176,6 +225,8 @@ class Car {
         }
 
         void set_front_right_wheel(FrontWheel *right) {
+            this->check_if_already_front_wheel(right);
+
             if (this->front_wheels) {
                 this->front_wheels->set_left_wheel(right);
                 this->update_wheels_dependent_components(right);
@@ -183,16 +234,22 @@ class Car {
         }
 
         void set_rear_left_wheel(RearWheel *left) {
+            this->check_if_already_rear_wheel(left);
+
             if (this->rear_wheels) {
-                this->rear_wheels->add_left_wheel(left);
+                this->rear_wheels->set_left_wheel(left);
                 this->update_wheels_dependent_components(left);
+                this->attach_emergency_brakes();
             }
         }
 
         void set_rear_right_wheel(RearWheel *right) {
+            this->check_if_already_rear_wheel(right);
+
             if (this->rear_wheels) {
-                this->rear_wheels->add_left_wheel(right);
+                this->rear_wheels->set_left_wheel(right);
                 this->update_wheels_dependent_components(right);
+                this->attach_emergency_brakes();
             }
         }
 
@@ -201,7 +258,9 @@ class Car {
             if (this->current_transmission) {
                 this->current_transmission->set_wheels(this->front_wheels, this->rear_wheels);
             }
-            this->current_crankshaft->set_transmission(this->current_transmission);
+            if (this->current_crankshaft) {
+                this->current_crankshaft->set_transmission(this->current_transmission);
+            }
         }
 
         void set_crankshaft(Crankshaft *crankshaft) {
@@ -241,7 +300,8 @@ class Car {
         void set_emergency_brakes(EmergencyBrakes *emergency_brakes) {
             this->emergency_brakes = emergency_brakes;
             if (this->emergency_brakes) {
-                this->emergency_brakes->set_wheels(this->front_wheels, this->rear_wheels);
+                this->emergency_brakes->set_wheels(this->rear_wheels);
+                this->attach_emergency_brakes();
             }
         }
 };

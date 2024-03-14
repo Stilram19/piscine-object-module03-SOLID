@@ -8,8 +8,12 @@ class Crankshaft {
         Transmission *transmission;
 
     private:
-        Crankshaft(const Transmission &other) {}
-        Crankshaft &operator=(const Crankshaft &other) { return (*this); }
+        Crankshaft(const Transmission &other);
+        Crankshaft &operator=(const Crankshaft &other);
+
+    public:
+        Crankshaft() {}
+        ~Crankshaft() {}
 
     public:
         void receive_force(float force) {

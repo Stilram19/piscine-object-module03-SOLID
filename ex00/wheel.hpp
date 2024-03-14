@@ -2,41 +2,27 @@
 # define WHEEL_HPP
 
 # include <iostream>
-# include "emergency_brakes.hpp"
-
-enum e_special_speeds {
-    NO_ROTATION_SPEED = 0, MAX_SPEED = 100, BRAKE_AMOUNT = -10
-};
 
 class Wheel {
     protected:
-        float           rotation_speed;
-        EmergencyBrakes *current_car_emergency_brakes;
+        float   rotation_speed;
 
     private:
-        Wheel(const Wheel &other) {}
-        Wheel &operator=(const Wheel &other) { return (*this); }
+        enum e_special_speeds {
+            NO_ROTATION_SPEED = 0, MAX_SPEED = 100, BRAKE_AMOUNT = -10
+        };
+
+    private:
+        Wheel(const Wheel &other);
+        Wheel &operator=(const Wheel &other);
 
     public:
-        Wheel() : rotation_speed(NO_ROTATION_SPEED), current_car_emergency_brakes(NULL) {}
-        ~Wheel() {}
-
-    private:
-        bool is_emergency_brakes_applied() const {
-            if (this->current_car_emergency_brakes) {
-                return (this->current_car_emergency_brakes->is_applied());
-            }
-            return (false);
-        }
+        Wheel() : rotation_speed(NO_ROTATION_SPEED) {}
+        virtual ~Wheel() {}
 
     public:
         // the added speed can be positive as well as negative.
-        void change_speed(float added_speed) {
-
-            if (this->is_emergency_brakes_applied()) {
-                std::cout << "Can't change speed! emergency brakes are applied!" << std::endl;
-                return ;
-            }
+        virtual void change_speed(float added_speed) {
  
             // these two checks are here to catch overflows and underflows
             if (added_speed > MAX_SPEED) {
@@ -68,10 +54,6 @@ class Wheel {
     public:
         void reset_speed() {
             this->rotation_speed = NO_ROTATION_SPEED;
-        }
-
-        void attach_emergency_brake(EmergencyBrakes *emergency_brakes) {
-            this->current_car_emergency_brakes = emergency_brakes;
         }
 
         int get_max_speed() const {

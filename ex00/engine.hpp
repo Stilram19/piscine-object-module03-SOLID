@@ -24,8 +24,8 @@ class Engine {
 
     // Constructor & Destructor
     private:
-        Engine(const Engine &other) {}
-        Engine &operator=(const Engine &other) { return (*this); }
+        Engine(const Engine &other);
+        Engine &operator=(const Engine &other);
 
     public:
         Engine() : status(ENGINE_OFF), fuel_amount(OUT_OF_FUEL) {}

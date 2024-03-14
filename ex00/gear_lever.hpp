@@ -3,19 +3,20 @@
 
 # include <iostream>
 
-enum e_gears {
-    REVERSE = -1, NEUTRAL_LEVEL, FIRST_LEVEL, SECOND_LEVEL,
-    THIRD_LEVEL, FOURTH_LEVEL, MAX_LEVEL
-};
-
 class GearLever {
     private:
         int current_gear;
 
+    private:
+        enum e_gears {
+            REVERSE = -1, NEUTRAL_LEVEL, FIRST_LEVEL, SECOND_LEVEL,
+            THIRD_LEVEL, FOURTH_LEVEL, MAX_LEVEL
+        };
+
     // Constructor & Destructor
     private:
-        GearLever(const GearLever &other) {}
-        GearLever &operator=(const GearLever &other) { return (*this); }
+        GearLever(const GearLever &other);
+        GearLever &operator=(const GearLever &other);
 
     public:
         GearLever() : current_gear(NEUTRAL_LEVEL) {}

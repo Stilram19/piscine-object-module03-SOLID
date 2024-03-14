@@ -3,18 +3,19 @@
 
 # include <iostream>
 
-enum e_material {
-    STEEL, ALUMINUM, COMPOSITE_MATERIALS
-};
-
 class Frame {
     private:
         int material;
 
     private:
         Frame() {}
-        Frame(const Frame &other) {}
-        Frame &operator=(const Frame &other) { return (*this); }
+        Frame(const Frame &other);
+        Frame &operator=(const Frame &other);
+
+    public:
+        enum e_material {
+            STEEL, ALUMINUM, COMPOSITE_MATERIALS
+        };
 
     public:
         Frame(int material) : material(material) {

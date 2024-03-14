@@ -2,41 +2,46 @@
 # define REAR_WHEELS_HPP
 
 # include "rear_wheel.hpp"
+# include "two_wheels.hpp"
 
-class RearWheels {
-    private:
-        RearWheel *left_wheel;
-        RearWheel *right_wheel;
+// this class might seem useless, but in the design it's very important,
+// because in a serious implementation, rear wheels might have something to say
 
+class RearWheels : public TwoWheels<RearWheel>
+{
     private:
-        RearWheels(const RearWheels &other) {}
-        RearWheels &operator=(const RearWheels &other) { return (*this); }
+        RearWheels(const RearWheels &other);
+        RearWheels &operator=(const RearWheels &other);
 
     public:
-        void add_left_wheel(RearWheel *left_wheel) {
-            this->left_wheel = left_wheel;
-        }
+        RearWheels(RearWheel *left_wheel, RearWheel *right_wheel) :  TwoWheels<RearWheel>(left_wheel, right_wheel) {}
+        ~RearWheels() {}
 
-        void add_right_wheel(RearWheel *right_wheel) {
-            this->right_wheel = right_wheel;
-        }
-
-        void change_speed(float speed) {
-            if (left_wheel == NULL || right_wheel == NULL) {
-                throw std::runtime_error("To change rear wheels speed, both wheels must exist");
-            }
-
-            this->left_wheel->change_speed(speed);
-            this->right_wheel->change_speed(speed);
-        }
-
-        void reset_wheels() {
+    public:
+        void stop_wheels() {
             if (this->left_wheel) {
-                this->left_wheel->reset_speed();
+                this->left_wheel->stop_wheel();
             }
             if (this->right_wheel) {
-                this->right_wheel->reset_speed();
+                this->right_wheel->stop_wheel();
             }
+        }
+
+        void release_wheels() {
+            if (this->left_wheel) {
+                this->left_wheel->release_wheel();
+            }
+            if (this->right_wheel) {
+                this->right_wheel->release_wheel();
+            }  
+        }
+
+        RearWheel *get_left_wheel() const {
+            return (this->left_wheel);
+        }
+
+        RearWheel *get_right_wheel() const {
+            return (this->right_wheel);
         }
 };
 

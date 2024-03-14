@@ -2,8 +2,9 @@
 # define BRAKEPEDAL_HPP
 
 # include <iostream>
-# include "front_wheels.hpp"
-# include "rear_wheels.hpp"
+# include "front_wheel.hpp"
+# include "rear_wheel.hpp"
+# include "two_wheels.hpp"
 
 enum e_special_forces {
     LOW_FORCE = 5, MID_FORCE = 10, HIGH_FORCE = 20
@@ -11,19 +12,20 @@ enum e_special_forces {
 
 class BrakePedal {
     private:
-        FrontWheels *front_wheels;
-        RearWheels *rear_wheels;
+        TwoWheels<FrontWheel>   *first_two_wheels;
+        TwoWheels<RearWheel>  *second_two_wheels;
 
     private:
-        BrakePedal(const BrakePedal &other) {}
-        BrakePedal &operator=(const BrakePedal &other) { return (*this); }
+        BrakePedal(const BrakePedal &other);
+        BrakePedal &operator=(const BrakePedal &other);
 
     public:
+        BrakePedal() {}
         ~BrakePedal() {}
 
     public:
         void apply_force(float force) {
-            if (this->front_wheels == NULL || this->rear_wheels == NULL) {
+            if (this->first_two_wheels == NULL || this->second_two_wheels == NULL) {
                 std::cout << "There must be all four wheels, in order to use the brakes!" << std::endl;
                 return ;
             }
@@ -41,8 +43,8 @@ class BrakePedal {
             std::cout << "Using brakes..." << std::endl;
             try {
                 while (speed--) {
-                    this->front_wheels->change_speed(-1);
-                    this->rear_wheels->change_speed(-1);
+                    this->first_two_wheels->change_speed(-1);
+                    this->second_two_wheels->change_speed(-1);
                 }
             }
             catch (const std::runtime_error &e) {
@@ -50,9 +52,9 @@ class BrakePedal {
             }
         }
 
-        void set_wheels(FrontWheels *front_wheels, RearWheels *rear_wheels) {
-            this->front_wheels = front_wheels;
-            this->rear_wheels = rear_wheels;
+        void set_wheels(TwoWheels<FrontWheel> *first_two_wheels, TwoWheels<RearWheel> *second_two_wheels) {
+            this->first_two_wheels = first_two_wheels;
+            this->second_two_wheels = second_two_wheels;
         }
 };
 
