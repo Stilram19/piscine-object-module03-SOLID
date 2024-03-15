@@ -12,7 +12,7 @@ class Crankshaft {
         Crankshaft &operator=(const Crankshaft &other);
 
     public:
-        Crankshaft() {}
+        Crankshaft() : transmission(NULL) {}
         ~Crankshaft() {}
 
     public:

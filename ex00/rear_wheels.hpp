@@ -4,9 +4,6 @@
 # include "rear_wheel.hpp"
 # include "two_wheels.hpp"
 
-// this class might seem useless, but in the design it's very important,
-// because in a serious implementation, rear wheels might have something to say
-
 class RearWheels : public TwoWheels<RearWheel>
 {
     private:
@@ -14,7 +11,7 @@ class RearWheels : public TwoWheels<RearWheel>
         RearWheels &operator=(const RearWheels &other);
 
     public:
-        RearWheels() {}
+        RearWheels() : TwoWheels<RearWheel>() {}
         RearWheels(RearWheel *left_wheel, RearWheel *right_wheel) :  TwoWheels<RearWheel>(left_wheel, right_wheel) {}
         ~RearWheels() {}
 

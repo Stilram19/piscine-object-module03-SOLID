@@ -11,7 +11,7 @@ class FrontWheels :public TwoWheels<FrontWheel>
         FrontWheels &operator=(const FrontWheels &other);
 
     public:
-        FrontWheels() {}
+        FrontWheels() : TwoWheels<FrontWheel>() {}
         FrontWheels(FrontWheel *left_wheel, FrontWheel *right_wheel) : TwoWheels<FrontWheel>(left_wheel, right_wheel) {}
         ~FrontWheels() {}
 
@@ -20,8 +20,8 @@ class FrontWheels :public TwoWheels<FrontWheel>
             if (this->left_wheel && this->right_wheel) {
                 this->left_wheel->turn(angle);
                 this->right_wheel->turn(angle);
+                std::cout << "FrontWheels turned!" << std::endl;
             }
-            std::cout << "FrontWheels turned!" << std::endl;
         }
 
         void straighten() {

@@ -30,7 +30,7 @@ class Wheel {
             }
 
             if (added_speed < (-1) * MAX_SPEED) {
-                added_speed = NO_ROTATION_SPEED;
+                added_speed = (-1) * this->rotation_speed; // this->rotation_speed can't be negative
             }
 
             this->rotation_speed += added_speed;
@@ -56,8 +56,8 @@ class Wheel {
             this->rotation_speed = NO_ROTATION_SPEED;
         }
 
-        int get_max_speed() const {
-            return (MAX_SPEED);
+        int get_current_speed() const {
+            return (this->rotation_speed);
         }
 };
 

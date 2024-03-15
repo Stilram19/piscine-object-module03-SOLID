@@ -12,6 +12,7 @@ class SteerWheel {
         SteerWheel &operator=(const SteerWheel &other);
 
     public:
+        SteerWheel() : front_wheels(NULL) {}
         SteerWheel(FrontWheels *front_wheels) : front_wheels(front_wheels) {}
         ~SteerWheel() {}
 

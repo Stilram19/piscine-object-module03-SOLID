@@ -14,7 +14,7 @@ class Transmission {
         Transmission &operator=(const Transmission &other);
 
     public:
-        Transmission() {}
+        Transmission() : front_wheels(NULL), rear_wheels(NULL) {}
         ~Transmission() {}
 
     public:
@@ -36,8 +36,8 @@ class Transmission {
 
             try {
                 while (count--) {
+                    this->rear_wheels->change_speed(speed); // always try rear wheels first, because emergency brakes might be applied
                     this->front_wheels->change_speed(speed);
-                    this->rear_wheels->change_speed(speed);
                 }
             }
             catch (const std::runtime_error &e) {

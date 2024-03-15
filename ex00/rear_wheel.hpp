@@ -3,9 +3,6 @@
 
 # include "wheel.hpp"
 
-// this class might seem useless, but in the design it's very important,
-// because in a serious implementation, rear wheels might have something to say
-
 class RearWheel : public Wheel
 {
     private:
@@ -22,6 +19,7 @@ class RearWheel : public Wheel
     public:
         void stop_wheel() {
             this->is_wheel_stoped = true;
+            this->reset_speed();
         }
 
         void release_wheel() {
@@ -30,8 +28,7 @@ class RearWheel : public Wheel
 
         virtual void change_speed(float speed) {
             if (this->is_wheel_stoped == true) {
-                std::cout << "Can't change speed! emergency brakes are applied!" << std::endl;
-                return ;
+                throw std::runtime_error("Emergency brakes applied: cannot move rear wheels!");
             }
             // if emergency brakes aren't applied, it's the same logic
             Wheel::change_speed(speed);

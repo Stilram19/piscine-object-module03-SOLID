@@ -3,14 +3,15 @@
 
 # include "wheel.hpp"
 
-enum e_special_angles {
-    STRAIGHT_ANGLE = 0, MIN_ANGLE = -30, MAX_ANGLE = 30
-};
-
 class FrontWheel : public Wheel
 {
     private:
         float angle;
+
+    private:
+        enum e_special_angles {
+            STRAIGHT_ANGLE = 0, MIN_ANGLE = -30, MAX_ANGLE = 30
+        };
 
     private:
         FrontWheel(const FrontWheel &other);
@@ -24,11 +25,11 @@ class FrontWheel : public Wheel
         void turn(float angle) {
 
             // these two checks are here to catch overflows and underflows
-            if (angle > MAX_ANGLE) {
-                angle = MAX_ANGLE;
+            if (angle > MAX_ANGLE * 2) {
+                angle = MAX_ANGLE * 2;
             }
-            if (angle < MIN_ANGLE) {
-                angle = MIN_ANGLE;
+            if (angle < MIN_ANGLE * 2) {
+                angle = MIN_ANGLE * 2;
             }
 
             this->angle += angle;
@@ -41,11 +42,12 @@ class FrontWheel : public Wheel
                 this->angle = MIN_ANGLE;
             }
 
-            std::cout << "Wheel turn called! current angle: " << this->angle << std::endl;
+            std::cout << "Wheels turned! current angle: " << this->angle << std::endl;
         }
 
         void straighten() {
             this->angle = STRAIGHT_ANGLE;
+            std::cout << "Wheels are straight! current angle: " << this->angle << std::endl;
         }
 
         float get_angle() const {

@@ -20,15 +20,15 @@ class TwoWheels {
         TwoWheels &operator=(const TwoWheels &other);
 
     public:
-        TwoWheels() {}
+        TwoWheels() : left_wheel(NULL), right_wheel(NULL) {}
         TwoWheels(T *left_wheel, T *right_wheel) : left_wheel(left_wheel), right_wheel(right_wheel) {}
         virtual ~TwoWheels() {}
 
     public:
 
         void change_speed(float speed) {
-            if (left_wheel == NULL || right_wheel == NULL) {
-                throw std::runtime_error("To change rear wheels speed, both wheels must exist");
+            if (this->left_wheel == NULL || this->right_wheel == NULL) {
+                throw std::runtime_error("To change wheels speed, all wheels must exist");
             }
 
             this->left_wheel->change_speed(speed);
@@ -71,12 +71,9 @@ class TwoWheels {
         }
 
     public:
-        int get_max_speed() const {
-            if (this->left_wheel) {
-                return (this->left_wheel->get_max_speed());
-            }
-            if (this->right_wheel) {
-                return (this->right_wheel->get_max_speed());
+        int get_current_speed() const {
+            if (this->left_wheel && this->right_wheel) {
+                return (this->left_wheel->get_current_speed());
             }
             return (0);
         }

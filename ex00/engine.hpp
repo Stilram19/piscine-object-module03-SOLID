@@ -28,7 +28,7 @@ class Engine {
         Engine &operator=(const Engine &other);
 
     public:
-        Engine() : status(ENGINE_OFF), fuel_amount(OUT_OF_FUEL) {}
+        Engine() : status(ENGINE_OFF), fuel_amount(OUT_OF_FUEL), crankshaft(NULL) {}
         ~Engine() {}
 
     private:
@@ -48,11 +48,13 @@ class Engine {
     public:
         void start() {
             if (this->fuel_amount < START_CONSUMPTION_UNIT) {
-                std::cout << "Can't Start! We're out of Fuel!" << std::endl;
+                std::cout << "Can't Start! Fuel not enough to start the engine!" << std::endl;
                 return ;
             }
 
-            this->consume_fuel(START_CONSUMPTION_UNIT);
+            if (this->status == ENGINE_OFF) {
+                this->consume_fuel(START_CONSUMPTION_UNIT);
+            }
 
             if (this->status == ENGINE_OFF) {
                 std::cout << "Engine started!" << std::endl;
@@ -72,7 +74,7 @@ class Engine {
                 std::cout << "Engine is off! turn it on to accelerate!" << std::endl;
                 return ;
             }
-            if (this->crankshaft) {
+            if (this->crankshaft == NULL) {
                 std::cout << "No crankshaft in engine!" << std::endl;
                 return ;
             }
