@@ -1,0 +1,17 @@
+(*) The Open/Closed Principle: software entities (classes, modules...) must be open for
+extension and closed for modification.
+
+(*) Open software entities are still open for extensions but not for modifications.
+(*) Closed software entities are open software entities that are complete and well tested,
+and can be used in other software entites.
+
+(*) OCP states that software entities mustn't be modified while adding new features
+instead you should be extending it (eg. through inheritance).
+This will help prevent unnecessary bugs.
+(*) But even when a developer wants to adhere to this principle, it might be the case
+that the closed software entity wasn't designed such that it is open for extension,
+which means you must modify it in order to add new features.
+
+(*) In the example treated in this exercise, the software entity is the Class Command. The new features
+we want to add, are packageDiscount and thuesdayDiscount. Adhering to the OCP, we need
+to create two child classes each extending the base class with its new Discount strategy.
