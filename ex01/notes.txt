@@ -14,4 +14,4 @@ which means you must modify it in order to add new features.
 
 (*) In the example treated in this exercise, the software entity is the Class Command. The new features
 we want to add, are packageDiscount and thuesdayDiscount. Adhering to the OCP, we need
-to create two child classes each extending the base class with its new Discount strategy.
+to create two child classes each extending the base class with its new Discount feature.
