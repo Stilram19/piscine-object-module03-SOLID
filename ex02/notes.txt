@@ -1,0 +1,10 @@
+(*) The liskov substitution principle was proposed by the pioneer Barbara liskov, it states that substituting
+a supertype by each of its subtypes mustn't break the program.
+In our case, supertypes are base classes, and subtypes are child classes:
+It states that objects of a superclass shall be replaceable by objects of its subclasses
+without breaking the program.
+
+To me if you adhere to this principle, you've just proved that you can only use references, or pointers
+of supertype to work with any subtype. According to the definition of the princple, we only
+care about the inherited interface, is it overriden such that it respects the liskov substitution principle?
+that's the question.
