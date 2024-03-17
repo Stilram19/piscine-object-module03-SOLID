@@ -1,0 +1,14 @@
+(*) The interface segragation principle: it states that every class implementing
+an interface shouldn't have to implement methods that it doesn't care about, or don't make
+sense in its context, or concern. The solution to this problem is to separate interfaces
+such that each interface defines only the functionalities needed by a group of classes.
+Thus every class will only have to implement methods it cares about, and this adheres
+to the ISP.
+
+(*) Inheritance is putting a repeated code (in a number of classes) into one class
+and making all of them inherit from it.
+(*) Using Abstraction efficiently, the code will only know about the interface, and won't
+care about or depend on implementations.
+
+(*) In the example treated in this exercise, the Employee abstract class is separated
+to two abstract classes: HourlyEmployee, SalariedEmployee.
