@@ -3,8 +3,8 @@
 
 class Employee {
     protected:
-        int DayHoursCount;
-        int hourlyValue; // the cost of hour
+        int                 hourlyValue; // the cost of hour
+        static const int    maxDayHours = 7;
 
     private:
         Employee();
@@ -12,11 +12,11 @@ class Employee {
         Employee &operator=(const Employee &);
 
     public:
-        Employee(int DayHoursCount, int hourlyValue) : DayHoursCount(DayHoursCount), hourlyValue(hourlyValue) {}
+        Employee(int hourlyValue) : hourlyValue(hourlyValue) {}
         virtual ~Employee() {}
 
     public:
-        virtual int executeWorkday() = 0; // shall return the number of worked hours
+        virtual int executeWorkday() = 0; // shall return the number of finished hours of the day
 };
 
 #endif

@@ -11,4 +11,5 @@ and making all of them inherit from it.
 care about or depend on implementations.
 
 (*) In the example treated in this exercise, the Employee abstract class is separated
-to two abstract classes: HourlyEmployee, SalariedEmployee.
+to two abstract classes: HourlyEmployee, SalariedEmployee. The Emplyee serves as a basis
+for both of them, and each class is extending it with its special functionalities.
