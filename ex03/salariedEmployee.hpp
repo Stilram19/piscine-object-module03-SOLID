@@ -28,6 +28,10 @@ class ContractEmployee : public SalariedEmployee {
         ContractEmployee &operator=(const ContractEmployee &);
 
     public:
+        ContractEmployee(int hourlyValue) : SalariedEmployee(hourlyValue) {}
+        virtual ~ContractEmployee() {}
+
+    public:
         // registers an absence hour
         virtual void register_absence() {
             this->absenceHours++;
@@ -76,6 +80,10 @@ class Apprentice : public StudentSalariedEmployee {
         Apprentice &operator=(const Apprentice &);
 
     public:
+        Apprentice(int hourlyValue) : StudentSalariedEmployee(hourlyValue) {}
+        virtual ~Apprentice() {}
+
+    public:
         // registers an absence hour
         virtual void register_absence() {
             this->absenceHours++;
@@ -92,26 +100,21 @@ class Apprentice : public StudentSalariedEmployee {
             int finishedDayHours = this->schoolHours / 2;
 
             // checking if the employee was at school all day long
-            if (this->schoolHours > Employee::maxDayHours) {
-                finishedDayHours = Employee::maxDayHours;
+            if (this->schoolHours >= Employee::maxDayHours) {
+                this->absenceHours -= Employee::maxDayHours;
                 this->schoolHours -= Employee::maxDayHours;
-                this->absenceHours -= Employee::maxDayHours;
-                return (finishedDayHours);
+                return (Employee::maxDayHours / 2);
             }
 
-            this->schoolHours = 0;
-
-            // check if the employee didn't work during the day
+            // checking if the employee didn't work all day long
             if (this->absenceHours >= Employee::maxDayHours) {
+                this->schoolHours = 0;
                 this->absenceHours -= Employee::maxDayHours;
                 return (finishedDayHours);
             }
 
-            // otherwise the employee did work at least one Hour during the day
-
-            finishedDayHours += (Employee::maxDayHours - this->absenceHours);
-
-            this->absenceHours = 0;
+            // here the employee worked at least for one hour
+            finishedDayHours += Employee::maxDayHours - this->absenceHours;
 
             return (finishedDayHours);
         }

@@ -1,4 +1,4 @@
-NAME=	shape
+NAME=	employeeManager
 SRCS=	main.cpp
 
 OBJS=	${SRCS:.cpp=.o}

@@ -22,7 +22,7 @@ class HourlyEmployee : public Employee {
 
     public:
         virtual void register_hour() = 0;
-        virtual void mobilise() = 0;
+        virtual void mobilise(int newAssignedHours) = 0;
 };
 
 class TempWorker : public HourlyEmployee {
@@ -32,12 +32,18 @@ class TempWorker : public HourlyEmployee {
         TempWorker &operator=(const TempWorker &);
 
     public:
+        TempWorker(int hourlyValue) : HourlyEmployee(hourlyValue) {}
+        virtual ~TempWorker() {}
+
+    public:
         // registers a finished hour
         virtual void register_hour() {
-            if (this->assignedHours != 0) {
-                this->assignedHours--;
-                this->hoursCount++;
+            if (this->assignedHours == 0) {
+                std::cout << "Worker has no assigned hours of work" << std::endl;
+                return ;
             }
+            this->assignedHours--;
+            this->hoursCount++;
         }
 
         // get assigned hours of work
@@ -45,7 +51,7 @@ class TempWorker : public HourlyEmployee {
             size_t totalAssignedHours = this->assignedHours + newAssignedHours;
 
             if (totalAssignedHours > CAPACITY) {
-                std::cout << "Temporary worker is busy! Try later!" << std::endl;
+                std::cout << "Assigned amount of hours is too much! Try with less!" << std::endl;
                 return ;
             }
             this->assignedHours += newAssignedHours;
