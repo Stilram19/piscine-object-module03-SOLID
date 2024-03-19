@@ -21,52 +21,14 @@ void test1() {
     temp_worker->register_hour();
     temp_worker->register_hour();
     temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
-    temp_worker->register_hour();
+
     temp_worker->register_hour();
 
     manager.executeWorkday();
     manager.executeWorkday();
     manager.executeWorkday();
     manager.executeWorkday();
-    manager.executeWorkday();
-    manager.executeWorkday();
-    manager.executeWorkday();
-    manager.executeWorkday();
+
 
     std::cout << "*********" << std::endl;
 

@@ -1,0 +1,12 @@
+(*) The Dependency inversion principle: it states that high level modules mustn't depend
+on low level modules, both of them have to depend on abstraction.
+This principle helps decoupling the dependencies that may often lead to troubles.
+If a high level module depends on a low level module, making change on the latter will
+require changing the former or at least verifying that it is still working.
+Low level modules will depend on abstraction, because it will implement it.
+High level modules will depend on abstraction to not depend on the low level implementations.
+High level modules only need to know how to use the interface provided by abstraction,
+without knowing about the low level implementation details.
+Thus the code will be rubust, maintainable, and the low level implementation can be
+changed entirely without needing to make changes on the high level modules.
+Abstraction will be the intermediary between high level modules and low level modules.
