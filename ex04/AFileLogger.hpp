@@ -16,7 +16,7 @@ class AFileLogger : public ILogger {
 
     public:
         AFileLogger(const std::string &file_path) {
-            this->fd = open(file_path.c_str(), O_WRONLY | O_APPEND);
+            this->fd = open(file_path.c_str(), O_CREAT | O_WRONLY, 222);
 
             if (this->fd == -1) {
                 throw std::runtime_error("Cannot open file!");

@@ -25,23 +25,8 @@ class TimeHeaderFileLogger : public AHeaderFileLogger {
 
         // appends the header cin front of the string
         virtual void put_header_in_front_of_str(std::string &str) {
-            std::string time_header = get_current_dir_name();
             str += " ";
             str += TimeHeaderFileLogger::get_current_time_header();
-        }
-
-    public:
-        virtual void write(std::string &str) {
-            if (str.empty() == false) {
-                this->put_header_in_front_of_str(str);
-
-                int ret = ::write(this->fd, str.c_str(), str.length()); // the global scope is important
-                // to prevent confusion, since both functions have the same name.
-
-                if (ret == -1) {
-                    throw std::runtime_error("Cannot write to file!");
-                }
-            }
         }
 };
 

@@ -1,4 +1,4 @@
-NAME=	shape
+NAME=	loggers
 SRCS=	main.cpp
 
 OBJS=	${SRCS:.cpp=.o}
