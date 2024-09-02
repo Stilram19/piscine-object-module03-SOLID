@@ -1,6 +1,6 @@
 # Advanced OOP Pescine - Module 03 (SOLID)
 
-![](resources/intro.png)
+![](resources/intro.webp)
 
 ## About
 
