@@ -1,10 +1,10 @@
-# Advanced OOP Pescine - Module 03 (SOLID)
+# Advanced OOP Piscine - Module 03 (SOLID)
 
 ![](resources/intro.webp)
 
 ## About
 
-The fourth module of the advanced OOP pescine, this module is about SOLID principles.
+The fourth module of the advanced OOP piscine, this module is about SOLID principles.
 Here is the link to the [subject](https://cdn.intra.42.fr/pdf/pdf/104801/en.subject.pdf)
 
 ## Installation && Usage
